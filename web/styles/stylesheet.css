@@ -1,0 +1,25 @@
+/* 
+    Document   : stylesheet
+    Created on : Sep 27, 2013, 8:33:43 PM
+    Author     : Jonathan
+    Description:
+        Make all the #changeBtn look like links
+*/
+
+.changeBtn{
+    /*Make the buton look like a link*/
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: arial,sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #0000EE;
+    text-decoration: underline;
+    cursor: pointer;
+    display: none;
+}
+
+.hidden{
+    display: none;
+}
