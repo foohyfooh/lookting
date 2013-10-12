@@ -38,7 +38,7 @@
             Description: <br /> <textarea name="description" cols="50" rows="4"></textarea><br />
             Contact Info: <input name="contact" type="text" maxlength="300"/><br />
             Artwork: <input name="artwork" type="file" accept="image/*"/><br />
-            <input name="user_id" type="hidden" value="<%= (Integer) session.getAttribute("user_id") %>"/><br />
+            <input name="user_id" hidden value="<%= (Integer) session.getAttribute("user_id") %>"/><br />
             <input value="Add" type="submit"/>
         </form>
     </body>

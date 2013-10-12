@@ -1,6 +1,5 @@
 package com.foohyfooh.lt;
 
-//import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -162,7 +161,7 @@ public class Database {
      * <p>Edit an existing event in the database</p>
      * @param request 
      */
-    public void edit(HttpServletRequest request){
+    public void edit(HttpServletRequest request) throws IOException{
         Event  event = new Event();
         try {
             String eventName = "";
@@ -233,7 +232,6 @@ public class Database {
                             event.setContact(contact);
                         }
                     }else if(inputName.equals("artwork")){
-                        
                         setUpArtwork(event, item, id, eventName, request);
                     }
                 }
@@ -243,7 +241,10 @@ public class Database {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        persist(event);
+        Integer user_id = (Integer) request.getSession().getAttribute("user_id");
+        if(event != null && (event.getUserId() == user_id || user_id == ADMIN_ID)){
+            persist(event);
+        }
     }
 
     /**
@@ -255,23 +256,24 @@ public class Database {
         Query query = entityManager.createNamedQuery("Event.findById", Event.class)
                 .setParameter("id", id);
         Event event = (Event) query.getSingleResult();
-        if(event == null) return;
-        
-        //Remove the artwork for this event
-        /*String fileLocation = request.getServletContext().getRealPath("/artwork");
-        String deleteLocation =  fileLocation + event.getArtwork().replace("/", "\\");
-        System.out.print(deleteLocation);
-        if(!fileLocation.equals(deleteLocation)){
-            //Ensure that the fileLocation is not the deleteLocation
-            //so that it doesn't delete files for the other events
-            File d = new File(deleteLocation);
-            if(d.exists() && d.delete()) JOptionPane.showMessageDialog(null, "Worked");
-        }*/
-        
-        entityManager.getTransaction().begin();
-        entityManager.remove(event);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        Integer user_id = (Integer) request.getSession().getAttribute("user_id");
+        if(event != null && (event.getUserId() == user_id || user_id == ADMIN_ID)){
+            //Remove the artwork for this event
+            /*String fileLocation = request.getServletContext().getRealPath("/artwork");
+            String deleteLocation =  fileLocation + event.getArtwork().replace("/", "\\");
+            System.out.print(deleteLocation);
+            if(!fileLocation.equals(deleteLocation)){
+                //Ensure that the fileLocation is not the deleteLocation
+                //so that it doesn't delete files for the other events
+                File d = new File(deleteLocation);
+                if(d.exists() && d.delete()) JOptionPane.showMessageDialog(null, "Worked");
+            }*/
+
+            entityManager.getTransaction().begin();
+            entityManager.remove(event);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        }
     }
     
     

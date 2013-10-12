@@ -58,20 +58,6 @@ public class Events extends HttpServlet {
             out.close();
         }
     }
-    
-    private List<Event> filter(List<Event> events){
-        List<Event> filtered = new ArrayList<Event>();
-        long MILLIS_IN_DAY = (24 * 60 * 60 * 1000);
-        for(Event e: events){
-            long diff = e.getEndDateMillis() - e.getStartDateMillis();
-            long diffDays = diff / MILLIS_IN_DAY;
-            
-            if(diffDays < 7){
-                filtered.add(e);
-            }
-        }
-        return filtered;
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

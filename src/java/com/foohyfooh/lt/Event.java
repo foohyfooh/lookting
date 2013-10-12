@@ -165,7 +165,7 @@ public class Event implements Serializable {
         this.userId = userId;
     }
     
-    //Methods made of simplisity
+    //Methods made of simplicity
     private String getStartDay(){
         return startDate.substring(0, 10);
     }
@@ -236,7 +236,7 @@ public class Event implements Serializable {
     
     /**
      * <p>Get the HTML formatted artwork image</p>
-     * @return 
+     * @return HTML img tag for the event 
      */
     public String toArtworkImage(){
         return artwork != null ?
@@ -245,7 +245,7 @@ public class Event implements Serializable {
     }
     
     /**
-     * Compare by dates in ascending order
+     * Compare by dates in ascending order by startDate
      */
     public static Comparator<Event> START_DATE_ASC = new Comparator<Event>(){
 
@@ -255,7 +255,5 @@ public class Event implements Serializable {
         }
         
     };
-    
-    
     
 }

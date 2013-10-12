@@ -217,4 +217,5 @@ pip-log.txt
 
 build/
 dist/
+nbproject/
 persistence.xml
