@@ -225,13 +225,11 @@ public class Event implements Serializable {
      * @return The HTML String for the edit and delete option
      */
     public String toDevString(){
-        return String.format(" <a href='edit.jsp?id=%d&name=%s&category=%s&start_date=%s&end_date=%s&price=%s&address=%s&description=%s&contact=%s'>Edit</a>"
+        return String.format(" <a href='edit.jsp?id=%d'>Edit</a>"
                 + " <input class='changeBtn' type='button' value='Delete'/>"
-                + "<a href='Service/delete?id=%s' class='hidden'>Confirm</a>"
+                + "<a href='Service/delete?id=%d' class='hidden'>Confirm</a>"
                 + "<input class='changeBtn' type='button' value='Cancel'/>",
-                id, Utils.encode(name), Utils.encode(category), startDate, endDate, Utils.encode(price), 
-                Utils.encode(address), Utils.encode(description), Utils.encode(contact), id);
-        
+                id, id);
     }
     
     /**

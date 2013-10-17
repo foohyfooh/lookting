@@ -14,7 +14,7 @@
     </head>
     <body onload="init();">
         <form action="Service/login" method="GET" id="login">
-            Username: <input name="username" type="text"/>
+            Username: <input name="username" type="text" autofocus/>
             Password: <input name="password" type="password"/>
             <input value="Login" type="submit"/>
         </form>

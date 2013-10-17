@@ -130,31 +130,31 @@ public class Database {
                         event.setAddress(address);
                     }else if(inputName.equals("description")){
                         String description = item.getString().trim();
-                        if(description != null && !description.isEmpty()){
+                        if(description != null){
                             event.setDescription(description);
+                        }else{
+                            event.setDescription("");
                         }
                     }else if(inputName.equals("contact")){
                          String contact = item.getString().trim();
-                        if(contact != null && !contact.isEmpty()){
+                        if(contact != null){
                             event.setContact(contact);
+                        }else{
+                            event.setContact("");
                         }
                     }else if(inputName.equals("artwork")){
                         setUpArtwork(event, item, next, eventName, request);
-                    }else if(inputName.equals("user_id")){
-                        String userId = item.getString();
-                        if(userId == null || userId.isEmpty() || !userId.matches("\\d+")){
-                            return;
-                        }
-                        event.setUserId(Integer.parseInt(userId));
                     }
                 }
             }
+            Integer userId = (Integer) request.getSession().getAttribute("user_id");
+            event.setUserId(userId);
+            persist(event);
         } catch (FileUploadException e) {
             JOptionPane.showMessageDialog(null, e);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        persist(event);
     }
     
     /**
@@ -228,22 +228,24 @@ public class Database {
                         }
                     }else if(inputName.equals("contact")){
                          String contact = item.getString().trim();
-                        if(contact != null && !contact.isEmpty()){
+                        if(contact != null){
                             event.setContact(contact);
+                        }else{
+                            event.setContact("");
                         }
                     }else if(inputName.equals("artwork")){
                         setUpArtwork(event, item, id, eventName, request);
                     }
                 }
             }
+            Integer userId = (Integer) request.getSession().getAttribute("user_id");
+            if(event != null && (event.getUserId() == userId || userId == ADMIN_ID)){
+                persist(event);
+            }
         } catch (FileUploadException e) {
             JOptionPane.showMessageDialog(null, e);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
-        }
-        Integer user_id = (Integer) request.getSession().getAttribute("user_id");
-        if(event != null && (event.getUserId() == user_id || user_id == ADMIN_ID)){
-            persist(event);
         }
     }
 

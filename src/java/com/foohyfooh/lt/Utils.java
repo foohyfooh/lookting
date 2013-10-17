@@ -1,7 +1,6 @@
 package com.foohyfooh.lt;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,15 +70,7 @@ public class Utils {
         try {
             return URLEncoder.encode(s, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            return null;
-        }
-    }
-    
-    public static String decode(String s){
-        try {
-            return URLDecoder.decode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return null;
+            return "";
         }
     }
 }
