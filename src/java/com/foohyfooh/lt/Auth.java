@@ -23,22 +23,9 @@ public class Auth {
         Integer user_id = (Integer) session.getAttribute("user_id");
         Query query = entityManager.createNamedQuery("User.findById", User.class);
         List<User> user = query.setParameter("id", user_id).getResultList();
-        return user.size() == 1 ? true : false;
+        return user.size() == 1;
     };
     
-    /**
-     * <p>Store the user_id in the session storage</p>
-     * @param session 
-     * @param userId A user id that should match one in the database
-     * @return  <code>true</code> if successful or <code>false</code> if unsuccessful
-     */
-    public static boolean storeSession(HttpSession session, Integer userId, String username){
-        if(userId == -1)
-            return false;
-        session.setAttribute("user_id", userId);
-        session.setAttribute("username", username);
-        return true;
-    }
     
     /**
      * <p>Remove the user_id from the session</p>
@@ -47,7 +34,7 @@ public class Auth {
      */
     public static boolean removeSession(HttpSession session){
         session.removeAttribute("user_id");
-        session.removeAttribute("username");
+        session.removeAttribute("message");
         return true;
     }
     
@@ -68,7 +55,15 @@ public class Auth {
             .setParameter("password", password).getResultList();
         //Can only have one user with this info. So if it the size is not 1
         //then return -1
-        return user != null && user.size() == 1 ? user.get(0).getId() : -1;
+        HttpSession session = request.getSession();
+        if(user != null && user.size() == 1){
+            int id = user.get(0).getId();
+            session.setAttribute("user_id", id);
+            session.setAttribute("message", "Welcome " + username);
+            return id;
+        }
+        session.setAttribute("message", "Invalid Username/Password Combination");
+        return -1;
     }
     
     
@@ -85,7 +80,11 @@ public class Auth {
         EntityManager entityManager = Utils.createEntityManager();
         Query query = entityManager.createNamedQuery("User.findByUsername", User.class);
         List<User> u =  query.setParameter("username", username).getResultList();
-        if(u != null && u.size() == 1) return -1;//ie user already exists
+        HttpSession session = request.getSession();
+        if(u != null && u.size() == 1){//ie user already exists
+            session.setAttribute("message", "Username Already Taken");
+            return -1;
+        }
         
         
         User user = new User();
@@ -97,8 +96,9 @@ public class Auth {
         entityManager.getTransaction().commit();
         entityManager.close();
         
-        //Return verifyUser giving the id of the user in the database 
-        return verifyUser(request);
+        int verified = verifyUser(request);
+        session.setAttribute("user_id", verified);
+        return verified;
     }
     
 }

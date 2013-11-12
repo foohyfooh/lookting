@@ -64,9 +64,7 @@ public class Service extends HttpServlet {
             
         }else if(method.equals("/login")){//Login existing user
             
-            int verification = Auth.verifyUser(request);
-            String username = request.getParameter("username");
-            if(Auth.storeSession(session, verification, username)){
+            if(Auth.verifyUser(request) != -1){
                 response.sendRedirect("../index.jsp");
             }else{
                 response.sendRedirect("../login.jsp");
@@ -74,10 +72,7 @@ public class Service extends HttpServlet {
             
         }else if(method.equals("/register")){//Create new user
             
-            int user_id = Auth.register(request);
-            String username = request.getParameter("username");
-            Auth.storeSession(session, user_id, username);
-            if(Auth.verifySession(session)){
+            if(Auth.register(request) != -1){
                 response.sendRedirect("../index.jsp");
             }else{
                 response.sendRedirect("../login.jsp");

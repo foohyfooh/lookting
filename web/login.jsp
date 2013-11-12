@@ -13,6 +13,12 @@
         <link rel="stylesheet" href="styles/stylesheet.css"/>
     </head>
     <body onload="init();">
+        <%
+            String message = (String) session.getAttribute("message");
+            if(message != null){
+                out.print("<b>" + message + "</b><br/>");
+            }
+        %>
         <form action="Service/login" method="GET" id="login">
             Username: <input name="username" type="text" autofocus/>
             Password: <input name="password" type="password"/>

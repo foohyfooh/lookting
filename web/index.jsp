@@ -19,7 +19,7 @@
             if(!Auth.verifySession(session))
                 response.sendRedirect("login.jsp");
             else{
-                out.print(String.format("<h1>Welcome %s</h1>", session.getAttribute("username")));
+                out.print("<h1>" + session.getAttribute("message") + "</h1>");
                 Database database = new Database();
                 database.printDev(out, request);
             }

@@ -61,7 +61,7 @@ public class Utils {
     public static long toMillis(String date){
         try {
             return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date).getTime();
-        } catch (ParseException e) {//Fallback on depracted date
+        } catch (ParseException e) {//Fallback on deprecated date
             return new Date(date).getTime();
         }
     }
